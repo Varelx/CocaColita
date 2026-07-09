@@ -265,7 +265,7 @@ Documento con:
 
 # Licencia
 
-Este proyecto está destinado al servidor **CocaColita**.
+Este proyecto está destinado al servidor **CocaCola**.
 
 Puedes modificar la configuración para adaptarla a tu propio servidor.
 
