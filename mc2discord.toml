@@ -1,0 +1,151 @@
+lang = "es_es"
+
+
+# https://discord.com/developers/home
+token = "TU_TOKEN"
+
+
+
+# "id" es el ID del canal de Discord
+# "subscriptions" es un array que indica el tipo de mensaje que deseas en este canal:
+# 	- chat (mensajes del chat)
+# 	- info (unirse, salir, iniciar, detener, muerte, progreso)
+# 	- command (escuchar comandos; consulta la sección Comandos)
+# 	- log (todos los registros del servidor)
+# 	- discord_announcement (para reenviar anuncios del canal a Discord)
+# "mode" define cómo enviar los mensajes (WEBHOOK, PLAIN_TEXT o EMBED)
+
+[Channels]
+
+	[[Channels.Channel]]
+		id = TU_ID
+		subscriptions = ["chat"]
+		mode = "WEBHOOK"
+
+	[[Channels.Channel]]
+		id = TU_ID
+		subscriptions = ["info"]
+		mode = "WEBHOOK"
+
+	[[Channels.Channel]]
+		id = TU_ID
+		subscriptions = ["log"]
+		mode = "PLAIN_TEXT"
+
+
+
+# Personaliza aquí los mensajes que se envían en Discord. Para desactivar uno, deja un valor vacío ("")
+
+[Messages]
+	# Variables globales
+	start = "**🟢 SERVIDOR INICIADO**"
+	# Variables globales
+	stop = "**🔴 SERVIDOR DETENIDO**"
+	# Variables globales y de jugador
+	join = "📥 ${player_display_name} se ha unido"
+	# Variables globales y de jugador
+	leave = "📤 ${player_display_name} ha salido"
+	# Variables globales, de jugador y de muerte
+	death = "💀 ${death_message}"
+	# Variables globales, de jugador y de avance
+	advancement = "🏆 ${player_display_name} ha conseguido ${advancement_title}. ${advancement_description}."
+
+
+
+[Commands]
+	# Prefijo de cada comando. El predeterminado de Minecraft es '/' (ej.: /help)
+	prefix = "/"
+	# Si es verdadero, el texto devuelto por los comandos estará en un bloque de código de Discord
+	use_codeblocks = true
+	# Respuesta cuando el usuario no tiene permiso para usar el comando.
+	error = "No tienes permiso para usar este comando!"
+
+	# "id" es un ID de usuario o un ID de rol. La regla se aplicará a este usuario o usuarios con este rol.
+	# "commands" es una lista de los comandos permitidos, además del nivel de permiso.
+	# "permission_level" permite todos los comandos con este permiso o inferior. -1 significa solo los comandos de la lista anterior y 0 significa todos los comandos que no son de operador.
+	# "comment" no lo usa el mod. Puedes usarlo para recordar para qué sirve la regla.
+	# Consulta https://minecraft.gamepedia.com/Server.properties#op-permission-level
+
+	[[Commands.Command]]
+		id = TU_ID
+		commands = ["help"]
+		permission_level = -1
+		comment = ""
+
+
+
+[Status]
+
+	[Status.Presence]
+		# Mensaje que se mostrará debajo del bot en la lista de miembros de Discord
+		message = "${online_players} jugadores conectados"
+		# Tipo de presencia (PLAYING, STREAMING, LISTENING, WATCHING, COMPETING)
+		type = "PLAYING"
+		# Frecuencia de actualización del mensaje de presencia (en segundos). Un número muy bajo podría resultar en una limitación para Discord.
+		update = 3
+		# Solo si el tipo es STREAMING. Debe ser un enlace válido de YouTube o Twitch.
+		link = ""
+
+	# "id" ID del canal de Discord.
+	# "update_period" Frecuencia de actualización del canal (en segundos). Un número muy bajo podría resultar en una limitación para Discord.
+	# "name_message" Mensaje que se establecerá como nombre del canal. Puedes usar variables globales. Si el canal es de texto, los espacios en blanco se reemplazarán por guiones.
+	# "topic_message" Mensaje que se establecerá como descripción del canal. Puedes usar variables globales.
+	[Status.Channels]
+
+		[[Status.Channels.Channel]]
+			id = TU_ID
+			update_period = 3
+			name_message = "📲┇Conectados ${online_players}"
+			topic_message = "📲┇Conectados ${online_players}"
+
+
+
+[Features]
+	# La función de vinculación de cuentas está deshabilitada en la versión 1.12.2. Habilita la función de vinculación de cuentas (usa /mc2discord restart para generar la configuración correspondiente). Se requiere que SERVER MEMBERS INTENT esté habilitado para que todas las funciones funcionen.
+	account_linking = false
+
+
+
+[Style]
+	# Anula el nombre del bot en modo webhook. Puedes usar una variable global aquí.
+	bot_name = ""
+	# Anula el avatar del bot en modo webhook. Debe ser una URL válida. Puedes usar una variable global aquí.
+	bot_avatar = ""
+	# URL para obtener el avatar del jugador. Debe ser una URL válida y no estar vacía. Puedes usar variables globales y variables de jugador aquí.
+	avatar_api = "https://mc-heads.net/head/${player_uuid}/right"
+	# Formato para los mensajes enviados en el chat de Minecraft. Puedes usar variables globales, variables de miembro y variables de mensaje aquí. Puedes cambiar el color con '${color_start_COLOR} CONTENT ${color_end}', donde COLOR es un color hexadecimal o 'top_role' para el color del rol más alto de Discord. ${reply} se reemplazará con reply_format si el mensaje tiene un mensaje referenciado.
+	minecraft_chat_format = "<Discord - ${member_nickname}> ${reply}${message}"
+	# Formato para los mensajes de chat enviados en Discord cuando el modo webhook está desactivado. Puedes usar variables globales, variables de jugador y la variable Mensaje aquí.
+	discord_chat_format = "**${player_display_name}**: ${message}"
+	# Reemplaza ${reply} en minecraft_chat_format si el mensaje tiene un mensaje referenciado. Puedes usar variables globales y variables de miembro (autor del mensaje referenciado) aquí.
+	reply_format = "Respondiendo a ${member_nickname}: "
+	# "true" el avatar del servidor se mostrará en el embed para los mensajes informativos.
+	embed_show_server_avatar = false
+
+	[Style.embed_color]
+		# Color para los elementos incrustados. Un color entero o uno de los siguientes: https://github.com/DenisD3D/Mc2Discord/blob/main/mc2discord-core/src/main/java/ml/denisd3d/mc2discord/core/M2DUtils.java#L102-L134
+		info = "SUMMER_SKY"
+		chat = "MEDIUM_SEA_GREEN"
+		command = "MEDIUM_SEA_GREEN"
+		log = "SUMMER_SKY"
+
+
+
+[Misc]
+	# Define si los mensajes de otros bots deben enviarse al chat de Minecraft.
+	relay_bot_messages = false
+	# Define si los comandos /say y /me ​​deben transmitirse en Discord
+	relay_say_me_tellraw_command = true
+	# Lista de tipos de mención permitidos. Valores admitidos: "EVERYONE_AND_HERE", "ROLE", "USER"
+	# Ejemplo: ["ROLE", "USER"] para permitir todas las menciones excepto @everyone y @here.
+	allowed_mention = []
+	# Mensaje para el comando /discord
+	discord_text = "https://discord.gg/TU_DISCORD"
+	# Enlace para el comando /discord
+	discord_link = "https://discord.gg/TU_DISCORD"
+	# La función de registros está deshabilitada en la versión 1.12.2. Formato para reenviar el registro en Discord
+	logs_format = "[${log_time!HH:mm:ss}] [${log_thread_name}/${log_level}] [${log_logger_name}]: ${log_message}"
+	# La función de registros está deshabilitada en la versión 1.12.2. Nivel para el registro en Discord (FATAL, ERROR, WARN, INFO, DEBUG, TRACE, ALL)
+	logs_level = "INFO"
+	# Lista de clases que se deben evitar que se envíen a Discord. Puedes usar un paquete o un nombre de clase completo. Por ejemplo: ["net.minecraft", "com.asupermod.somepackage.AClassToBan"]
+	banned_mods_messages = []
